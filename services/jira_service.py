@@ -1,5 +1,4 @@
 # services/jira_service.py
-
 from jira import JIRA
 
 class JiraService:

@@ -1,5 +1,4 @@
 # services/config.py
-
 import yaml
 
 class Config:
@@ -18,3 +17,4 @@ class Config:
         self.gitlab_token = data["gitlab"]["token"]
         self.chatgpt_token = data["chatgpt"]["token"]
         self.db_path = data["database"]["path"]
+        self.default_tasks = data.get("default_tasks", [])
