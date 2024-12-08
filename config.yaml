@@ -1,0 +1,28 @@
+# config.yaml
+jira:
+  url: "https://your-jira-instance.com"
+  user: "your_jira_user"
+  token: "your_jira_token"
+  query: 'project = "PROJ" AND status = "In Progress"'
+
+time:
+  min: 3
+  max: 4
+
+telegram:
+  token: "your_telegram_token"
+  chat_id: "your_chat_id"
+
+gitlab:
+  url: "https://your-gitlab-instance.com/api/v4"
+  token: "your_gitlab_token"
+
+chatgpt:
+  token: "your_chatgpt_token"
+
+database:
+  path: "issues.db"
+
+default_tasks:
+  - "PROJ-123"
+  - "PROJ-456"
