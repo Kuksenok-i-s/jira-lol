@@ -12,7 +12,6 @@ class Config:
         self.time_min = data["time"]["min"]
         self.time_max = data["time"]["max"]
         self.telegram_token = data["telegram"]["token"]
-        self.telegram_chat_id = data["telegram"]["chat_id"]
         self.gitlab_api_url = data["gitlab"]["url"]
         self.gitlab_token = data["gitlab"]["token"]
         self.chatgpt_token = data["chatgpt"]["token"]
