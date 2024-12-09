@@ -1,8 +1,8 @@
 # config.yaml
 jira:
-  url: "https://your-jira-instance.com"
-  user: "your_jira_user"
-  token: "your_jira_token"
+  url: "URL"
+  user: "TOKEN"
+  token: "TOKEN"
   query: 'project = "PROJ" AND status = "In Progress"'
 
 time:
@@ -10,19 +10,19 @@ time:
   max: 4
 
 telegram:
-  token: "your_telegram_token"
-  chat_id: "your_chat_id"
+  token: "NONE"
+  chat_id: "NONE"
 
 gitlab:
-  url: "https://your-gitlab-instance.com/api/v4"
-  token: "your_gitlab_token"
+  url: "https://gitlab.com/api/v4"
+  token: "TOKEN"
 
 chatgpt:
-  token: "your_chatgpt_token"
+  token: "TOKEN"
 
 database:
   path: "issues.db"
 
 default_tasks:
   - "PROJ-123"
-  - "PROJ-456"
+  - "PROJ-46"

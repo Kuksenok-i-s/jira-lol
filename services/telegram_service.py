@@ -1,46 +1,30 @@
-# services/telegram_service.py
-import telegram
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
-import random
+#!/usr/bin/python
+
+# This is a simple echo bot using the decorator mechanism.
+# It echoes any incoming text messages.
+import asyncio
+
+from services.config import Config
+
+from telebot.async_telebot import AsyncTeleBot
+
 
 class TelegramService:
-    def __init__(self, token, chat_id, config):
-        self.bot = telegram.Bot(token=token)
-        self.chat_id = chat_id
+    def __init__(self, config: Config):
         self.config = config
-        self.updater = Updater(token=token, use_context=True)
-        dp = self.updater.dispatcher
-        dp.add_handler(CommandHandler("dry_run", self.cmd_dry_run))
-        dp.add_handler(CommandHandler("run", self.cmd_run))
-        dp.add_handler(MessageHandler(Filters.text & ~Filters.command, self.on_message))
+        self.bot = AsyncTeleBot(config.telegram_token)
 
-    def send_message(self, text):
-        self.bot.send_message(chat_id=self.chat_id, text=text)
+    async def send_message(self, message):
+        await self.bot.send_message(self.config.telegram_chat_id, message)
 
-    def listen(self, jira, utils, config, chatgpt, db):
-        self.jira = jira
-        self.utils = utils
-        self.config = config
-        self.chatgpt = chatgpt
-        self.db = db
-        self.updater.start_polling()
-        self.updater.idle()
+    def listen(self, utils, config, chatgpt, db):
+        @self.bot.message_handler(commands=['help', 'start'])
+        async def send_welcome(message):
+            text = 'Hi, I am EchoBot.\nJust write me something and I will repeat it!'
+            await self.bot.reply_to(message, text)
 
-    def cmd_dry_run(self, update, context):
-        table = self.utils.dry_run(self.jira, self.utils, self.config, self.chatgpt, False)
-        context.bot.send_message(chat_id=update.effective_chat.id, text=f"Dry run:\n{table}")
+        @self.bot.message_handler(func=lambda message: True)
+        async def echo_message(message):
+            await self.bot.reply_to(message, message.text)
 
-    def cmd_run(self, update, context):
-        self.utils.log_time(self.jira, self.utils, self.config, self.chatgpt, self.db, False)
-        context.bot.send_message(chat_id=update.effective_chat.id, text="Time logged.")
-
-    def on_message(self, update, context):
-        text = update.message.text
-        if "dry run" in text.lower():
-            table = self.utils.dry_run(self.jira, self.utils, self.config, self.chatgpt, True)
-            context.bot.send_message(chat_id=update.effective_chat.id, text=f"Dry run with default tasks:\n{table}")
-        elif "run" in text.lower():
-            self.utils.log_time(self.jira, self.utils, self.config, self.chatgpt, self.db, True)
-            context.bot.send_message(chat_id=update.effective_chat.id, text="Time logged with default tasks.")
-        else:
-            context.bot.send_message(chat_id=update.effective_chat.id, text="Команда не распознана.")
+        asyncio.run(self.bot.polling())

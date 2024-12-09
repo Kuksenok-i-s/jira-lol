@@ -23,18 +23,18 @@ def main():
     args = parser.parse_args()
 
     config = Config("config.yaml")
-    jira = JiraService(config.jira_url, config.jira_user, config.jira_token, config.jira_query)
+    # jira = JiraService(config.jira_url, config.jira_user, config.jira_token, config.jira_query)
     utils = Utils()
     chatgpt = ChatGPTService(config.chatgpt_token)
     db = DBService(config.db_path)
-    telegram = TelegramService(config.telegram_token, config.telegram_chat_id, config)
+    telegram = TelegramService(config)
 
     db.init_db()
 
     if args.mode in ["run", "dry-run"]:
         run_actions(args.mode, args.use_default_tasks, config, jira, utils, chatgpt, db, telegram)
     elif args.mode == "telegram-bot":
-        telegram.listen(jira, utils, config, chatgpt, db)
+        telegram.listen(utils, config, chatgpt, db)
 
 if __name__ == "__main__":
     main()
