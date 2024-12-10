@@ -1,11 +1,15 @@
 # main.py
 import argparse
+
+import jira
+
 from services.config import Config
 from services.jira_service import JiraService
 from services.utils import Utils
 from services.chatgpt_service import ChatGPTService
 from services.db_service import DBService
 from services.telegram_service import TelegramService
+
 
 def run_actions(mode, use_default, config, jira, utils, chatgpt, db, telegram):
     if mode == "dry-run":
@@ -15,6 +19,7 @@ def run_actions(mode, use_default, config, jira, utils, chatgpt, db, telegram):
     elif mode == "run":
         utils.log_time(jira, utils, config, chatgpt, db, use_default)
         telegram.send_message("Time logged.")
+
 
 def main():
     parser = argparse.ArgumentParser(description="Jira time logger")
@@ -35,6 +40,7 @@ def main():
         run_actions(args.mode, args.use_default_tasks, config, jira, utils, chatgpt, db, telegram)
     elif args.mode == "telegram-bot":
         telegram.listen(utils, config, chatgpt, db)
+
 
 if __name__ == "__main__":
     main()
