@@ -1,8 +1,4 @@
-# services/chatgpt_service.py
-
 import requests
-
-# services/chatgpt_service.py
 
 class ChatGPTService:
     """
