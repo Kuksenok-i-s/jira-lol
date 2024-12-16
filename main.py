@@ -27,8 +27,8 @@ def main():
 
     config = Config("config.yaml")
     jira = JiraService(config.jira_url, config.jira_user, config.jira_token, config.jira_query)
-    utils = Utils()
     chatgpt = ChatGPTService(config.chatgpt_token)
+    utils = Utils()
     db = DBService(config.db_path)
     telegram = TelegramService(config)
 
