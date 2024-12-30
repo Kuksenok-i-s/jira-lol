@@ -1,6 +1,6 @@
 import random
 from jira import JIRA
-from config import Config
+from services.config import Config
 
 
 class JiraService:
