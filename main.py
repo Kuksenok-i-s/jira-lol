@@ -6,7 +6,7 @@ from services.jira_service import JiraService
 from services.utils import Utils
 from services.chatgpt_service import ChatGPTService
 from services.db_service import DBService
-from services.telegram_service import TelegramService
+from services.telegram_service.bot import TelegramService
 
 
 def run_actions(mode, use_default, config, jira, utils, chatgpt, db, telegram):
