@@ -2,7 +2,7 @@
 import argparse
 
 from services.config import Config
-from services.jira_service import JiraService
+from services.jira_service.jira_service import JiraService
 from services.utils import Utils
 from services.chatgpt_service import ChatGPTService
 from services.db_service import DBService
@@ -26,7 +26,7 @@ def main():
     args = parser.parse_args()
 
     config = Config("config.yaml")
-    jira = JiraService(config.jira_url, config.jira_user, config.jira_token, config.jira_query)
+    jira = JiraService(config.jira_url, config.jira_user, config.jira_token)
     chatgpt = ChatGPTService(config.chatgpt_token)
     utils = Utils()
     db = DBService(config.db_path)
