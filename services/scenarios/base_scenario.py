@@ -1,5 +1,6 @@
 # telegram_service/scenarios/base_scenario.py
 
+
 class BaseScenario:
     def __init__(self, user_id: int):
         self.user_id = user_id

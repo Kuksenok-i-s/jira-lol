@@ -2,6 +2,7 @@
 
 from .base_scenario import BaseScenario
 
+
 class LogTimeScenario(BaseScenario):
     def __init__(self, user_id: int, jira_handler):
         super().__init__(user_id)
@@ -28,8 +29,9 @@ class LogTimeScenario(BaseScenario):
 
             self.jira_handler.add_worklog(self.issue_key, f"{self.hours}h", self.comment)
 
-            await bot.send_message(message.chat.id,
-                                   f"Залогировал {self.hours}ч на задачу {self.issue_key} с комментарием '{self.comment}'.")
+            await bot.send_message(
+                message.chat.id, f"Залогировал {self.hours}ч на задачу {self.issue_key} с комментарием '{self.comment}'."
+            )
 
             self.current_step = 1  # ставим шаг в "завершён"
             return

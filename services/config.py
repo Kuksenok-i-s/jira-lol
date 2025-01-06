@@ -1,5 +1,6 @@
 import yaml
 
+
 class Config:
     def __init__(self, config_path):
         with open(config_path, "r") as f:
@@ -7,7 +8,6 @@ class Config:
         self.jira_url = data["jira"]["url"]
         self.jira_user = data["jira"]["user"]
         self.jira_token = data["jira"]["token"]
-        self.jira_query = data["jira"]["query"]
         self.time_min = data["time"]["min"]
         self.time_max = data["time"]["max"]
         self.telegram_token = data["telegram"]["token"]

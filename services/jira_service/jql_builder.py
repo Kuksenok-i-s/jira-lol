@@ -1,5 +1,6 @@
 # jql_builder.py
 
+
 class JQLBuilder:
     def __init__(self):
         self.conditions = []

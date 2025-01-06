@@ -2,6 +2,7 @@
 
 from .logtime_scenario import LogTimeScenario
 
+
 class ScenarioManager:
     def __init__(self, jira_handler):
         self.jira_handler = jira_handler
