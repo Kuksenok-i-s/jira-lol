@@ -5,7 +5,7 @@ from datetime import datetime
 class DBWorker:
     def __init__(self, conn: sqlite3.Connection):
         self.conn = conn
-    
+
     def __enter__(self):
         return self.conn.cursor()
 
@@ -16,7 +16,6 @@ class DBWorker:
             self.conn.rollback()
 
 
-
 class DBService:
     def __init__(self, db_path):
         self.db_path = db_path
@@ -25,8 +24,8 @@ class DBService:
 
     def __del__(self):
         if self.conn:
-            self.conn.close()   
-    
+            self.conn.close()
+
     def init_db(self):
         try:
             self.conn = sqlite3.connect(self.db_path)
@@ -71,13 +70,13 @@ class DBService:
     def create_user(self, chat_id, username, jira_username):
         with DBWorker(self.conn) as c:
             c.execute(
-               """
+                """
             INSERT INTO users (username, jira_username, chat_id)
             VALUES (?, ?, ?)
             """,
-            (username, jira_username, chat_id),
+                (username, jira_username, chat_id),
             )
-    
+
     def get_username(self, chat_id) -> list[str]:
         with DBWorker(self.conn) as c:
             c.execute(
@@ -107,14 +106,14 @@ class DBService:
                 (chat_id,),
             )
             return c.fetchone()
-    
 
-    def save_chat_id(self, chat_id):
+    def save_chat_id(self, chat_id, jira_username):
         with DBWorker(self.conn) as c:
             c.execute(
                 """
-            INSERT INTO users (chat_id)
-            VALUES (?)
+            UPDATE users 
+            SET chat_id = ?
+            WHERE jira_username = ?
             """,
-                (chat_id),
+                (chat_id, jira_username)
             )

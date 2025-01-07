@@ -14,10 +14,14 @@ COMMANDS_INFO = {
 
 db = DBService()
 
+
 def register_commands(
     bot: TelegramService = None,
     scenario_manager: ScenarioManager = None,
 ) -> None:
+    # add jira_username to db
+    # add jira_password to db
+    # add jira_url to db
     @bot.message_handler(commands=["start"])
     async def start_command(message: Message):
         db.save_chat_id(message.chat.id)
