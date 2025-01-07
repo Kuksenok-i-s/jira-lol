@@ -3,13 +3,12 @@
 import asyncio
 from telebot.async_telebot import AsyncTeleBot
 
-from services.config import Config
+from config import Config
 
 from .command import register_commands
 from .handlers import register_handlers
 
-from services.scenarios.scenario_manager import ScenarioManager
-
+from main_logic import ScenarioManager
 from services.jira_service.jira_service import JiraHandler, JiraService
 
 
@@ -18,16 +17,8 @@ class TelegramService:
         self.config = config
         self.bot = AsyncTeleBot(config.telegram_token)
 
-        self.jira_service = JiraService(
-            url=config.jira_url,
-            user=config.jira_user,
-            token=config.jira_token
-        )
-        self.jira_handler = JiraHandler(
-            js=self.jira_service,
-            config=config,
-            git_summary={}
-        )
+        self.jira_service = JiraService(url=config.jira_url, user=config.jira_user, token=config.jira_token)
+        self.jira_handler = JiraHandler(js=self.jira_service, config=config, git_summary={})
 
         self.scenario_manager = ScenarioManager(self.jira_handler)
 
