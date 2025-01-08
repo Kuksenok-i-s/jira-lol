@@ -37,7 +37,7 @@ class DBService:
                     issue_key TEXT,
                     date TEXT,
                     time_spent TEXT,
-                    comment TEXT
+                    comment TEXT,
                     chat_id TEXT
                 )
                 """
