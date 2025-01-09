@@ -33,7 +33,7 @@ class DBService:
                 c.execute(
                     """
                 CREATE TABLE IF NOT EXISTS logged_time (
-                    index INTEGER PRIMARY KEY AUTOINCREMENT,
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
                     issue_key TEXT,
                     date TEXT,
                     time_spent TEXT,
@@ -45,10 +45,10 @@ class DBService:
                 c.execute(
                     """
                 CREATE TABLE IF NOT EXISTS users (
-                    index INTEGER PRIMARY KEY AUTOINCREMENT,
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
                     username TEXT,
                     jira_username TEXT,
-                    chat_id TEXT PRIMARY KEY
+                    chat_id TEXT UNIQUE
                 )
                 """
                 )
@@ -57,14 +57,14 @@ class DBService:
         except Exception as e:
             print(f"Error: {e}")
 
-    def insert_log(self, issue_key, time_spent, comment):
+    def insert_log(self, issue_key, time_spent, comment, chat_id):
         with DBWorker(self.conn) as c:
             c.execute(
                 """
             INSERT INTO logged_time (issue_key, date, time_spent, comment, chat_id) 
             VALUES (?, ?, ?, ?, ?)
             """,
-                (issue_key, datetime.now().isoformat(), time_spent, comment),
+                (issue_key, datetime.now().isoformat(), time_spent, comment, chat_id),
             )
 
     def create_user(self, chat_id, username, jira_username):
@@ -115,5 +115,5 @@ class DBService:
             SET chat_id = ?
             WHERE jira_username = ?
             """,
-                (chat_id, jira_username)
+                (chat_id, jira_username),
             )

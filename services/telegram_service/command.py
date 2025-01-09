@@ -3,7 +3,6 @@
 from telebot.async_telebot import AsyncTeleBot
 from telebot.types import Message
 from main_logic.scenarios.scenario_manager import ScenarioManager
-from services.telegram_service.bot import TelegramService
 from services.db_service.db_service import DBService
 
 COMMANDS_INFO = {
@@ -12,16 +11,12 @@ COMMANDS_INFO = {
     "start_log": "Логирует время",
 }
 
-db = DBService()
-
+db = DBService("issues.db")
 
 def register_commands(
-    bot: TelegramService = None,
-    scenario_manager: ScenarioManager = None,
+        bot: AsyncTeleBot,
+        scenario_manager: ScenarioManager = None,
 ) -> None:
-    # add jira_username to db
-    # add jira_password to db
-    # add jira_url to db
     @bot.message_handler(commands=["start"])
     async def start_command(message: Message):
         db.save_chat_id(message.chat.id)

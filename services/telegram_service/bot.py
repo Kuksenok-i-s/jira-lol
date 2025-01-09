@@ -1,13 +1,10 @@
-# telegram_service/bot.py
+# bot.py
 
 import asyncio
 from telebot.async_telebot import AsyncTeleBot
-
 from config import Config
-
 from .command import register_commands
 from .handlers import register_handlers
-
 from main_logic import ScenarioManager
 from services.jira_service.jira_service import JiraHandler, JiraService
 
@@ -22,8 +19,8 @@ class TelegramService:
 
         self.scenario_manager = ScenarioManager(self.jira_handler)
 
-    async def send_message(self, message: str) -> None:
-        await self.bot.send_message(self.config.telegram_chat_id, message)
+    async def send_message(self, chat_id: int, message: str) -> None:
+        await self.bot.send_message(chat_id, message)
 
     def listen(self, utils, config, chatgpt, db) -> None:
         register_commands(self.bot, self.scenario_manager)
