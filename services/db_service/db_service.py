@@ -20,7 +20,6 @@ class DBService:
     def __init__(self, db_path):
         self.db_path = db_path
         self.init_db()
-        self.conn = None
 
     def __del__(self):
         if self.conn:
@@ -58,7 +57,7 @@ class DBService:
             print(f"Error: {e}")
 
     def insert_log(self, issue_key, time_spent, comment, chat_id):
-        with sqlite3.connect(self.db_path) as c:
+        with DBWorker(self.conn) as c:
             c.execute(
                 """
             INSERT INTO logged_time (issue_key, date, time_spent, comment, chat_id) 
@@ -68,7 +67,7 @@ class DBService:
             )
 
     def create_user(self, chat_id, username, jira_username):
-        with sqlite3.connect(self.db_path) as c:
+        with DBWorker(self.conn) as c:
             c.execute(
                 """
             INSERT INTO users (username, jira_username, chat_id)
@@ -78,7 +77,7 @@ class DBService:
             )
 
     def get_username(self, chat_id) -> list[str]:
-        with sqlite3.connect(self.db_path) as c:
+        with DBWorker(self.conn) as c:
             c.execute(
                 """
             SELECT username FROM users WHERE chat_id = ?
@@ -88,7 +87,7 @@ class DBService:
             return c.fetchone()
 
     def get_jira_username(self, chat_id) -> list[str]:
-        with sqlite3.connect(self.db_path) as c:
+        with DBWorker(self.conn) as c:
             c.execute(
                 """
             SELECT jira_username FROM users WHERE chat_id = ?
@@ -98,7 +97,7 @@ class DBService:
             return c.fetchone()
 
     def get_chat_id(self, chat_id) -> list[str]:
-        with sqlite3.connect(self.db_path) as c:
+        with DBWorker(self.conn) as c:
             c.execute(
                 """
             SELECT chat_id FROM users WHERE chat_id = ?
@@ -108,7 +107,7 @@ class DBService:
             return c.fetchone()
 
     def save_chat_id(self, chat_id, jira_username):
-        with sqlite3.connect(self.db_path) as c:
+        with DBWorker(self.conn) as c:
             c.execute(
                 """
             UPDATE users 
