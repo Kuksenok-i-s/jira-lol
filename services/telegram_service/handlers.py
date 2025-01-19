@@ -2,6 +2,7 @@
 
 from telebot.async_telebot import AsyncTeleBot
 
+
 def register_handlers(bot: AsyncTeleBot, scenario_manager):
     @bot.message_handler(func=lambda message: True)
     async def default_handler(message):

@@ -1,5 +1,10 @@
 import requests
 
+"""
+Written with ChatGPT lmao
+"""
+
+
 class ChatGPTService:
     """
     Сервис для взаимодействия с ChatGPT.
@@ -7,6 +12,7 @@ class ChatGPTService:
     Основная задача – принимать данные от внешних источников (Jira, Telegram, и т.д.),
     обрабатывать их и возвращать результат.
     """
+
     def __init__(self, token):
         """
         Инициализация сервиса.
@@ -45,4 +51,3 @@ class ChatGPTService:
         """
         # Для прототипа возвращаем шаблонный ответ.
         return f"Входящий запрос: {prompt}. Ответ: (здесь будет генерация текста)."
-

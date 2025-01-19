@@ -1,9 +1,12 @@
 # services/utils.py
 import random
 import prettytable
+from services.jira_service import JiraService
+
 
 class Utils:
-    def get_random_time_entries(self, total_hours):
+    @staticmethod
+    def get_random_time_entries(total_hours):
         entries = []
         remaining = total_hours * 60
         while remaining > 0:
@@ -14,13 +17,12 @@ class Utils:
             remaining -= chunk
         return entries
 
-    def get_mr_info(self, issue_key):
-        return {
-            "repo": "some-repo",
-            "commits": ["commit1", "commit2"]
-        }
+    @staticmethod
+    def get_mr_info(issue_key):
+        return {"repo": "some-repo", "commits": ["commit1", "commit2"]}
 
-    def gather_issues(self, jira, use_default, config):
+    @staticmethod
+    def gather_issues(jira, use_default, config):
         issues = jira.get_inprogress_issues()
         if use_default:
             # Add default tasks as pseudo issues
@@ -29,6 +31,7 @@ class Utils:
                 class MockIssue:
                     def __init__(self, key):
                         self.key = key
+
                 issues.append(MockIssue(task))
         return issues
 

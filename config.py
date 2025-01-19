@@ -7,7 +7,6 @@ class Config:
         self.jira_url = data["jira"]["url"]
         self.jira_user = data["jira"]["user"]
         self.jira_token = data["jira"]["token"]
-        self.jira_query = data["jira"]["query"]
         self.time_min = data["time"]["min"]
         self.time_max = data["time"]["max"]
         self.telegram_token = data["telegram"]["token"]

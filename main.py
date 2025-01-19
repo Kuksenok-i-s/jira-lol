@@ -1,19 +1,18 @@
 #!/usr/bin/env python3
 import argparse
 
-from services.config import Config
+from config import Config
 from services.jira_service.jira_service import JiraService
-from services.utils import Utils
-from services.chatgpt_service import ChatGPTService
-from services.db_service import DBService
+from utils.utils import Utils
+from services.chat_gpt_service.chat_gpt_service import ChatGPTService
+from services.db_service.db_service import DBService
 from services.telegram_service.bot import TelegramService
 
 
-def run_actions(mode, use_default, config, jira, utils, chatgpt, db, telegram):
+def run_actions(mode: str, use_default: bool, config: Config, jira: JiraService, utils: Utils, chatgpt: ChatGPTService, db, telegram):
     if mode == "dry-run":
         table = utils.dry_run(jira, utils, config, chatgpt, use_default)
         print(table)
-        telegram.send_message("Dry run completed.")
     elif mode == "run":
         utils.log_time(jira, utils, config, chatgpt, db, use_default)
         telegram.send_message("Time logged.")

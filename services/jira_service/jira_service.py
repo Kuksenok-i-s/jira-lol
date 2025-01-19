@@ -1,6 +1,6 @@
 import random
 from jira import JIRA
-from services.config import Config
+from config import Config
 from services.jira_service.jql_builder import JQLBuilder
 
 
@@ -14,7 +14,7 @@ class JiraService:
     def add_worklog(self, issue_key, time_spent, comment):
         self.jira.add_worklog(issue=issue_key, timeSpent=time_spent, comment=comment)
 
-    def add_comment(self, issue_key: str= None, comment: str= None): 
+    def add_comment(self, issue_key: str = None, comment: str = None):
         self.jira.add_comment(issue=issue_key, body=comment)
 
     def search_issues(self, jql: str, max_results: int = 50):
@@ -43,6 +43,7 @@ class JiraService:
     def attach_file(self, issue_key: str, file_path: str):
         self.jira.add_attachment(issue=issue_key, attachment=file_path)
 
+
 class JiraHandler:
     def __init__(self, js: JiraService, config: Config, git_summary: dict[str, str]):
         self.jira_service = js
@@ -50,37 +51,23 @@ class JiraHandler:
         self.git_summary = git_summary
 
     def get_in_progress_issues(self):
-        jql = (
-            JQLBuilder()
-            .status("In Progress")
-            .build()
-        )
+        jql = JQLBuilder().status("In Progress").build()
         return self.jira_service.search_issues(jql)
 
     def get_in_progress_issues_by_assignee(self, assignee: str):
-        jql = (
-            JQLBuilder()
-            .status("In Progress")
-            .assignee(assignee)
-            .build()
-        )
+        jql = JQLBuilder().status("In Progress").assignee(assignee).build()
         return self.jira_service.search_issues(jql)
 
     def get_unresolved_issues_by_project(self, project_key: str):
-        jql = (
-            JQLBuilder()
-            .project(project_key)
-            .resolution_empty()
-            .build()
-        )
+        jql = JQLBuilder().project(project_key).resolution_empty().build()
         return self.jira_service.search_issues(jql)
 
     def create_issue(self, project_key: str, summary: str, description: str):
         issue_data = {
-            'project': {'key': project_key},
-            'summary': summary,
-            'description': description,
-            'issuetype': {'name': 'Task'}
+            "project": {"key": project_key},
+            "summary": summary,
+            "description": description,
+            "issuetype": {"name": "Task"},
         }
         return self.jira_service.create_issue(issue_data)
 
@@ -102,4 +89,3 @@ class JiraHandler:
         hours = random.randint(self.config.time_min, self.config.time_max)
         comment = f"Randomly logged {hours}h"
         self.jira_service.add_worklog(issue_key, f"{hours}h", comment)
-
