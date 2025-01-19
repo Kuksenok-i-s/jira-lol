@@ -19,7 +19,7 @@ def register_commands(
 ) -> None:
     @bot.message_handler(commands=["start"])
     async def start_command(message: Message):
-        db.save_chat_id(message.chat.id)
+        db.save_chat_id(message.chat.id, "ololshka")
         text = "Привет! Я бот для логгирования часов в JIRA (пока в зачаточном состоянии). " "Для списка команд введите /help."
         await bot.send_message(message.chat.id, text)
 

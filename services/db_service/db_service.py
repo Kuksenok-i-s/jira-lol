@@ -20,7 +20,6 @@ class DBService:
     def __init__(self, db_path):
         self.db_path = db_path
         self.init_db()
-        self.conn = None
 
     def __del__(self):
         if self.conn:
